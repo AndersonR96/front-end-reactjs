@@ -4,7 +4,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Edit, Delete} from'@material-ui/icons';
 import axios from 'axios';
 
-const URL = 'https://back-end-laravel.herokuapp.com/api/departaments';
+const URL = 'https://back-end-laravel.herokuapp.com/api/departaments/';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
