@@ -4,7 +4,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Edit, Delete} from'@material-ui/icons';
 import axios from 'axios';
 
-const URL = 'https://back-end-laravel.herokuapp.com/api/departaments/';
+const URL_POST_GET = 'https://back-end-laravel.herokuapp.com/api/departaments';
+const URL_PUT_DELETE = 'https://back-end-laravel.herokuapp.com/api/departaments/';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -52,7 +53,7 @@ const handleChange=e=>{
   }
   
 const getData=async() => {
-    await axios.get(URL)
+    await axios.get(URL_POST_GET)
     .then(res =>{
         setData(res.data);
     })
@@ -60,7 +61,7 @@ const getData=async() => {
 }
 
 const postData=async()=>{
-    await axios.post(URL, departamentSelect)
+    await axios.post(URL_POST_GET, departamentSelect)
     .then(res=>{
       setData(res.data)
       openCloseInsertModal()
@@ -71,7 +72,7 @@ const postData=async()=>{
   }
 
 const putData=async()=>{
-    await axios.put(URL+departamentSelect.departament_id, departamentSelect)
+    await axios.put(URL_PUT_DELETE+departamentSelect.departament_id, departamentSelect)
     .then(res=>{
       var newData=data;
       newData.forEach(departament=>{
@@ -88,7 +89,7 @@ const putData=async()=>{
 }
 
 const deleteData=async()=>{
-    await axios.delete(URL+departamentSelect.departament_id)
+    await axios.delete(URL_PUT_DELETE+departamentSelect.departament_id)
     .then(res => {
         setData(data.filter(departament=>departament.departament_id!==departamentSelect.departament_id))
         openCloseDeleteModal();
