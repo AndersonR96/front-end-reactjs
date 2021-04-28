@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Table, TableContainer, TableHead, TableCell, TableBody, TableRow, Modal, Button, TextField, Select, MenuItem, InputLabel} from '@material-ui/core';
+import {Table, TableContainer, TableHead, TableCell, TableBody, TableRow, Modal, Button, TextField, MenuItem} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {Edit, Delete} from'@material-ui/icons';
 import axios from 'axios';
 import {getDepartaments} from './constants';
-import Departament from './Departament';
 
 const URL = 'https://back-end-laravel.herokuapp.com/api/users/';
 
@@ -81,7 +80,7 @@ const putData=async()=>{
     await axios.put(URL+userSelect.user_id, userSelect)
     .then(res=>{
       var newData=data;
-      newData.map(user=>{
+      newData.forEach(user=>{
         if(userSelect.user_id===user.user_id){
             user.name=userSelect.name;
             user.last_name=userSelect.last_name;
@@ -148,7 +147,7 @@ const insertBody = (
 const editBody = (
     <div className={styles.modal}>
         <h3>Editar Usuario</h3>
-        <TextField name="name" className={styles.inputMaterial} label="Nombre" onChange={handleChange} value={userSelect && userSelect.name} value={userSelect && userSelect.name}/>
+        <TextField name="name" className={styles.inputMaterial} label="Nombre" onChange={handleChange} value={userSelect && userSelect.name}/>
         <TextField name="last_name" className={styles.inputMaterial} label="Apellido" onChange={handleChange} value={userSelect && userSelect.last_name}/>
         <TextField name="identification_number" className={styles.inputMaterial} label="No. Identificacion" onChange={handleChange} value={userSelect && userSelect.identification_number}/>
         <TextField name="email" className={styles.inputMaterial} label="Email" onChange={handleChange} value={userSelect && userSelect.email}/>
@@ -169,9 +168,10 @@ const deleteBody = (
     </div>
 )
 
-useEffect(async()=>{
-    await getData();
-    getDepartaments().then(data => setDepartaments(data));
+useEffect(()=>{
+    getData();
+    getDepartaments()
+    .then(data => setDepartaments(data));
 },[])
     return(
         <div className="User">

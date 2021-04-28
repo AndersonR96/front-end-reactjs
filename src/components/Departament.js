@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Table, TableContainer, TableHead, TableCell, TableBody, TableRow, Modal, Button, TextField, Select, MenuItem, InputLabel} from '@material-ui/core';
+import {Table, TableContainer, TableHead, TableCell, TableBody, TableRow, Modal, Button, TextField} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {Edit, Delete} from'@material-ui/icons';
 import axios from 'axios';
@@ -74,7 +74,7 @@ const putData=async()=>{
     await axios.put(URL+departamentSelect.departament_id, departamentSelect)
     .then(res=>{
       var newData=data;
-      newData.map(departament=>{
+      newData.forEach(departament=>{
         if(departamentSelect.departament_id===departament.departament_id){
             departament.departament=departamentSelect.departament;
         }
@@ -135,7 +135,6 @@ const editBody = (
         className={styles.inputMaterial}
          label="Nombre del departamento" 
          onChange={handleChange} 
-         value={departamentSelect && departamentSelect.departament} 
          value={departamentSelect && departamentSelect.departament}/>
         <div>
             <Button color="primary" onClick={()=>putData()}>Editar</Button>
@@ -154,8 +153,8 @@ const deleteBody = (
     </div>
 )
 
-useEffect(async()=>{
-    await getData();
+useEffect(()=>{
+     getData();
 },[])
     return(
         <div className="User">
