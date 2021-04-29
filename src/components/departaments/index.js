@@ -1,31 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Table, TableContainer, TableHead, TableCell, TableBody, TableRow, Modal, Button, TextField} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
 import {Edit, Delete} from'@material-ui/icons';
 import axios from 'axios';
+import {URL_POST_GET_DEPARTAMENTS, URL_PUT_DELETE_DEPARTAMENTS, useStyles} from '../constants'
 
-const URL_POST_GET = 'https://back-end-laravel.herokuapp.com/api/departaments';
-const URL_PUT_DELETE = 'https://back-end-laravel.herokuapp.com/api/departaments/';
-
-const useStyles = makeStyles((theme) => ({
-    modal: {
-      position: 'absolute',
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)'
-    },
-    iconos:{
-      cursor: 'pointer'
-    }, 
-    inputMaterial:{
-      width: '100%'
-    }
-  }));
 
 function Departament(){
 
@@ -44,7 +22,6 @@ const [departamentSelect, setdepartamentSelect] = useState({
 const handleChange=e=>{
     
     const {name, value}=e.target;
-    console.log(name, value)
     setdepartamentSelect(prevState=>({
       ...prevState,
       [name]: value
@@ -53,7 +30,7 @@ const handleChange=e=>{
   }
   
 const getData=async() => {
-    await axios.get(URL_POST_GET)
+    await axios.get(URL_POST_GET_DEPARTAMENTS)
     .then(res =>{
         setData(res.data);
     })
@@ -61,7 +38,7 @@ const getData=async() => {
 }
 
 const postData=async()=>{
-    await axios.post(URL_POST_GET, departamentSelect)
+    await axios.post(URL_POST_GET_DEPARTAMENTS, departamentSelect)
     .then(res=>{
       setData(res.data)
       openCloseInsertModal()
@@ -72,7 +49,7 @@ const postData=async()=>{
   }
 
 const putData=async()=>{
-    await axios.put(URL_PUT_DELETE+departamentSelect.departament_id, departamentSelect)
+    await axios.put(URL_PUT_DELETE_DEPARTAMENTS+departamentSelect.departament_id, departamentSelect)
     .then(res=>{
       var newData=data;
       newData.forEach(departament=>{
@@ -89,7 +66,7 @@ const putData=async()=>{
 }
 
 const deleteData=async()=>{
-    await axios.delete(URL_PUT_DELETE+departamentSelect.departament_id)
+    await axios.delete(URL_PUT_DELETE_DEPARTAMENTS+departamentSelect.departament_id)
     .then(res => {
         setData(data.filter(departament=>departament.departament_id!==departamentSelect.departament_id))
         openCloseDeleteModal();
@@ -118,38 +95,44 @@ const selectDepartament = (departament, caso)=>{
 
 const insertBody = (
     <div className={styles.modal}>
-        <h3>Agregar Departamento</h3>
-        <TextField name="departament" className={styles.inputMaterial} label="Nombre del departamento" onChange={handleChange}/>
-        
-        <div>
-            <Button color="primary" onClick={()=>postData()}>Insertar</Button>
-            <Button onClick={()=>openCloseInsertModal()}>Cancelar</Button>
+        <div className="bodyModal">
+            <h3>Agregar Departamento</h3>
+            <TextField name="departament" className={styles.inputMaterial} label="Nombre del departamento" onChange={handleChange}/>
+            
+            <div className="modalButtons">
+                <Button variant="contained" color="primary" onClick={()=>postData()}>Insertar</Button>
+                <Button variant="contained" onClick={()=>openCloseInsertModal()}>Cancelar</Button>
+            </div>
         </div>
     </div>
 )
 
 const editBody = (
     <div className={styles.modal}>
-        <h3>Editar Departamento</h3>
-        <TextField 
-        name="departament" 
-        className={styles.inputMaterial}
-         label="Nombre del departamento" 
-         onChange={handleChange} 
-         value={departamentSelect && departamentSelect.departament}/>
-        <div>
-            <Button color="primary" onClick={()=>putData()}>Editar</Button>
-            <Button onClick={()=>openCloseEditModal()}>Cancelar</Button>
+        <div className="bodyModal">
+            <h3>Editar Departamento</h3>
+            <TextField 
+            name="departament" 
+            className={styles.inputMaterial}
+            label="Nombre del departamento" 
+            onChange={handleChange} 
+            value={departamentSelect && departamentSelect.departament}/>
+            <div className="modalButtons">
+                <Button variant="contained" color="primary" onClick={()=>putData()}>Editar</Button>
+                <Button variant="contained" onClick={()=>openCloseEditModal()}>Cancelar</Button>
+            </div>
         </div>
     </div>
 )
 
 const deleteBody = (
     <div className={styles.modal}>
-        <p>Seguro que desea eliminar el usuario {departamentSelect && departamentSelect.departament} ?</p>
-        <div>
-            <Button color="secondary" onClick={()=>deleteData()}>Si</Button>
-            <Button onClick={()=>openCloseDeleteModal()}>No</Button>
+        <div className="bodyModal">
+            <p>Seguro que desea eliminar el usuario {departamentSelect && departamentSelect.departament} ?</p>
+            <div className="modalButtons">
+                <Button variant="contained" color="secondary" onClick={()=>deleteData()}>Si</Button>
+                <Button variant="contained" onClick={()=>openCloseDeleteModal()}>No</Button>
+            </div>
         </div>
     </div>
 )
@@ -158,15 +141,17 @@ useEffect(()=>{
      getData();
 },[])
     return(
-        <div className="User">
-            
-            <Button variant="contained" color="sucess" onClick={()=>openCloseInsertModal()}>Ingresar Departamento</Button>
+        <div className="Departament">
+            <div className="insertButton">
+                <Button variant="contained" color="primary" onClick={()=>openCloseInsertModal()}>Ingresar Departamento</Button>
+            </div>
             <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>No.</TableCell>
                             <TableCell>Departamento</TableCell>
+                            <TableCell>Acciones</TableCell>
                         </TableRow>
                     </TableHead>
 

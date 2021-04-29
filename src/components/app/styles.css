@@ -1,0 +1,39 @@
+.MuiButton-contained{
+  margin: 10px;
+}
+
+.bodyModal{
+  font-family: system-ui;
+  font-size: larger;
+}
+
+.modalButtons{
+  display: flex;
+  justify-content: flex-end;
+  margin: 30px 0px 10px 0px;
+}
+
+.insertButton{
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0px 20px 0px;
+  padding-top: 65px;
+}
+
+
+.navButtons {
+  -webkit-transition-duration: 0.4s !important; /* Safari */
+  transition-duration: 0.4s !important;
+  color:black !important;
+  background-color: #dcdcdc !important;
+  margin: 0px 5px !important;
+}
+
+.navButtons:hover {
+  background-color: #46699e !important; /* Green */
+  color: white !important;
+}
+
+.header{
+  justify-content: center;
+}
